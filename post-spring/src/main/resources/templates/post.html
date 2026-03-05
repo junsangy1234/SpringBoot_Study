@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 목록</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .btn { padding: 8px 16px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<h2>게시판 목록</h2>
+<a th:href="@{/post/write}" class="btn">글쓰기</a>
+<br><br>
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>날짜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post : ${postList}">
+        <td th:text="${post.id}">1</td>
+        <td>
+            <a th:href="@{/post/detail/{id}(id=${post.id})}" th:text="${post.title}">제목입니다</a>
+        </td>
+        <td th:text="${post.author}">작성자</td>
+        <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd')}">2024-01-01</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
