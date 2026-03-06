@@ -15,6 +15,8 @@ public class MemoryPostRepository implements PostRepository {
         post.setId(++sequence);
         store.put(post.getId(), post);
 
+
+        //Git test
         return post;
     }
 
