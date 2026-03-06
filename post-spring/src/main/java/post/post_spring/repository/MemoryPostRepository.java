@@ -5,7 +5,6 @@ import post.post_spring.domain.Post;
 
 import java.util.*;
 
-@Repository
 public class MemoryPostRepository implements PostRepository {
     private static long sequence = 0L;
     private static Map<Long, Post> store = new HashMap<>();

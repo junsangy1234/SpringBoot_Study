@@ -16,7 +16,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-
     //DI주입 방법: 필드, Setter, 생성자 있는데 생성자만 사용.
     @Autowired
     public MemberController(MemberService memberService) {

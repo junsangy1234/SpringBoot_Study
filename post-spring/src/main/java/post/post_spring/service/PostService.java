@@ -1,30 +1,27 @@
 package post.post_spring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import post.post_spring.domain.Post;
-import post.post_spring.repository.MemoryPostRepository;
+import post.post_spring.repository.PostRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class PostService {
-    MemoryPostRepository memoryPostRepository;
 
-    @Autowired
-    public PostService(MemoryPostRepository memoryPostRepository) {
-        this.memoryPostRepository = memoryPostRepository;
+public class PostService {
+    private final PostRepository postRepository;
+
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
     public Long write(Post post){
-        memoryPostRepository.save(post);
+        postRepository.save(post);
 
         return post.getId();
     }
 
     public void edit(Long id, String title, String content){
-        Post post = memoryPostRepository.findById(id)
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물은 없습니다."));
 
         if(post.getTitle() != null && !post.getTitle().trim().isEmpty()){
@@ -36,14 +33,14 @@ public class PostService {
     }
 
     public void delete(Long id){
-        memoryPostRepository.delete(id);
+        postRepository.delete(id);
     }
 
     public List<Post> findAll(){
-        return memoryPostRepository.findAll();
+        return postRepository.findAll();
     }
 
     public Optional<Post> findById(Long id){
-        return memoryPostRepository.findById(id);
+        return postRepository.findById(id);
     }
 }
