@@ -1,5 +1,6 @@
 package post.post_spring.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import post.post_spring.domain.Post;
 import post.post_spring.repository.PostRepository;
 
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Transactional
 public class PostService {
     private final PostRepository postRepository;
 
