@@ -1,27 +1,21 @@
-package jpabook.jpashop.form;
+package jpabook.jpashop.dto;
 
-import jpabook.jpashop.domain.item.Book;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ItemForm {
+public class ItemDto {
     private Long id;
-
     private String name;
     private int price;
     private int stockQuantity;
-    private String dtype;
+    private String dtype; // BOOK, ALBUM, MOVIE 구분용
 
-    //book
+    // 자식들 전용 필드를 몽땅 모아둡니다
     private String author;
     private String isbn;
-
-    //album
     private String artist;
     private String etc;
-
-    //movie
-    private String director;
     private String actor;
+    private String director;
 }
