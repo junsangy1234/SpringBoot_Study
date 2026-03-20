@@ -36,4 +36,10 @@ public class MemberService {
     public Optional<Member> findOne(Long id){
         return memberRepository.findOne(id);
     }
+
+    @Transactional
+    public void updateMember(Long id, String name){
+        Member member = memberRepository.findOne(id).get();
+        member.changeName(name);
+    }
 }
