@@ -18,21 +18,23 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
 
     @GetMapping("/members/new")
     public String createForm(Model model){
         model.addAttribute("memberForm", new MemberForm());
-
         return "members/createMemberForm";
     }
 
     @PostMapping("/members/new")
     public String create(@Valid MemberForm form, BindingResult result){
-        if (result.hasErrors()){
+        if(result.hasErrors()){
             return "members/createMemberForm";
         }
+
         Member member = Member.createMember(form.getName(), new Address(form.getCity(), form.getStreet(), form.getZipcode()));
+
         memberService.join(member);
 
         return "redirect:/";
@@ -41,9 +43,8 @@ public class MemberController {
     @GetMapping("/members")
     public String list(Model model){
         List<Member> members = memberService.findMembers();
-
-        List<MemberDto> memberDto = members.stream().
-                map(m -> new MemberDto(
+        List<MemberDto> memberDtos = members.stream()
+                .map(m -> new MemberDto(
                         m.getId(),
                         m.getName(),
                         m.getAddress() != null ? m.getAddress().getCity() : "",
@@ -52,10 +53,8 @@ public class MemberController {
                 ))
                 .toList();
 
-        model.addAttribute("members", memberDto);
+        model.addAttribute("members", memberDtos);
 
         return "members/memberList";
     }
-
-
 }

@@ -3,7 +3,7 @@ package jpabook.jpashop.controller;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.domain.order.Order;
-import jpabook.jpashop.dto.OrderSearch;
+import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.service.ItemService;
 import jpabook.jpashop.service.MemberService;
 import jpabook.jpashop.service.OrderService;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,11 +24,11 @@ public class OrderController {
 
     @GetMapping("/order")
     public String createForm(Model model){
-        List<Member> memberList = memberService.findMembers();
         List<Item> itemList = itemService.findItems();
+        List<Member> memberList = memberService.findMembers();
 
-        model.addAttribute("members", memberList);
         model.addAttribute("items", itemList);
+        model.addAttribute("members", memberList);
 
         return "order/orderForm";
     }
@@ -53,7 +54,7 @@ public class OrderController {
     @PostMapping("/orders/{orderId}/cancel")
     public String cancel(@PathVariable("orderId") Long orderId){
         orderService.cancel(orderId);
-        return "redirect:/orders";
 
+        return "redirect:/orders";
     }
 }

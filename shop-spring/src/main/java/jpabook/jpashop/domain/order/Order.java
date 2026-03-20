@@ -3,85 +3,79 @@ package jpabook.jpashop.domain.order;
 import jakarta.persistence.*;
 import jpabook.jpashop.domain.DeliveryStatus;
 import jpabook.jpashop.domain.Member;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order_table")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
     @Id @GeneratedValue
-    @Column(name = "order_id")
+    @Column(name ="order_id")
     private Long id;
 
-    //멤버(주문자)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    //오더아이템
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    //배송
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    private LocalDateTime orderTime;
-
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
+    private LocalDateTime orderTime;
 
     private void setMember(Member member){
         this.member = member;
         member.getOrders().add(this);
     }
-
+    private void setDelivery(Delivery delivery){
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
     private void addOrderItem(OrderItem orderItem){
         this.orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
 
-    private void setDelivery(Delivery delivery){
-        this.delivery = delivery;
-        delivery.setOrder(this);
-    }
-
-    //장바구니용 (List)
-    public static Order createOrder(Member member, Delivery delivery, List<OrderItem> orderItems){
+    public static Order createOrder(Member member, Delivery delivery,List<OrderItem> orderItems){
         Order order = new Order();
+
         order.setMember(member);
         order.setDelivery(delivery);
-
-        for(OrderItem orderItem : orderItems){
-            order.addOrderItem(orderItem);
+        for(OrderItem item : orderItems){
+            order.addOrderItem(item);
         }
-
-        order.status = OrderStatus.ORDER;
         order.orderTime = LocalDateTime.now();
+        order.orderStatus = OrderStatus.ORDER;
 
         return order;
     }
 
-    //단건 주문, 테스트용
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems){
+    public static Order createOrder(Member member, Delivery delivery,OrderItem... orderItems){
         return createOrder(member, delivery, List.of(orderItems));
     }
 
     public void cancel(){
         if(delivery.getStatus() == DeliveryStatus.COMP){
-            throw new IllegalStateException("이미 배송이 출발하여 취소가 불가능합니다.");
+            throw new IllegalArgumentException("이미 배송이 도착하였습니다.");
         }
 
-        this.status = OrderStatus.CANCEL;
+        this.orderStatus = OrderStatus.CANCEL;
 
-        for(OrderItem orderItem : this.orderItems){
-            orderItem.cancel();
+        for(OrderItem item : orderItems){
+            item.cancel();
         }
     }
+
 }

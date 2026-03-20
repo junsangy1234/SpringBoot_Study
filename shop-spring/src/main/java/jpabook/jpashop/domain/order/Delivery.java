@@ -15,7 +15,7 @@ public class Delivery {
     @Embedded
     private Address address;
 
-    @OneToOne(mappedBy = "delivery",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "delivery",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Order order;
 
     @Enumerated(EnumType.STRING)
@@ -27,7 +27,6 @@ public class Delivery {
 
     public static Delivery createDelivery(Address address){
         Delivery delivery = new Delivery();
-
         delivery.address = address;
         delivery.status = DeliveryStatus.READY;
 

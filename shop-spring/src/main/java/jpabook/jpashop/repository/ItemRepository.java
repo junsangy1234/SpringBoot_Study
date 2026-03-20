@@ -11,16 +11,10 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class ItemRepository {
-
     private final EntityManager em;
 
     public void save(Item item){
-        if(item.getId() == null){
-            em.persist(item);
-        }
-        else {
-            em.merge(item);
-        }
+        em.persist(item);
     }
 
     public Optional<Item> findOne(Long id){
@@ -31,4 +25,5 @@ public class ItemRepository {
         return em.createQuery("SELECT i FROM Item i",Item.class)
                 .getResultList();
     }
+
 }

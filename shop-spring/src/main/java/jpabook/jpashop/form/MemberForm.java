@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class MemberForm {
-    @NotEmpty(message = "이름을 입력하세요")
+    @NotEmpty
     private String name;
 
     private String city;

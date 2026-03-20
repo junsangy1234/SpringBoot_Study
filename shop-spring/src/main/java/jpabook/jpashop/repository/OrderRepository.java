@@ -2,8 +2,6 @@ package jpabook.jpashop.repository;
 
 import jakarta.persistence.EntityManager;
 import jpabook.jpashop.domain.order.Order;
-import jpabook.jpashop.dto.OrderSearch;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,9 +10,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-@Getter
 public class OrderRepository {
-
     private final EntityManager em;
 
     public void save(Order order){
@@ -66,4 +62,5 @@ public class OrderRepository {
 
         return query.getResultList();
     }
+
 }

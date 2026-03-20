@@ -15,7 +15,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    @Transactional(readOnly = false)
+    @Transactional
     public Long join(Member member){
         validateDuplicateMember(member);
 

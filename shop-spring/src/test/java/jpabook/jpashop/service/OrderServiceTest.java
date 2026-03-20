@@ -39,7 +39,7 @@ class OrderServiceTest {
 
         //then
         Order getOrder = orderRepository.findOne(orderId).get();
-        assertThat(getOrder.getStatus()).isEqualTo(OrderStatus.ORDER);
+        assertThat(getOrder.getOrderStatus()).isEqualTo(OrderStatus.ORDER);
         assertThat(getOrder.getOrderItems().size()).isEqualTo(1);
         assertThat(getOrder.getOrderItems().get(0).getTotalPrice()).isEqualTo(10000*orderCount);
         assertThat(book.getStockQuantity()).isEqualTo(8);
@@ -58,7 +58,7 @@ class OrderServiceTest {
 
         //then
         Order getOrder = orderRepository.findOne(orderId).get();
-        assertThat(getOrder.getStatus()).isEqualTo(OrderStatus.CANCEL);
+        assertThat(getOrder.getOrderStatus()).isEqualTo(OrderStatus.CANCEL);
         assertThat(book.getStockQuantity()).isEqualTo(10);
     }
 

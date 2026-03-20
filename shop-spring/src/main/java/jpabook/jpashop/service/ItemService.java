@@ -13,13 +13,11 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ItemService {
-
     private final ItemRepository itemRepository;
 
     @Transactional
     public Long save(Item item){
         itemRepository.save(item);
-
         return item.getId();
     }
 

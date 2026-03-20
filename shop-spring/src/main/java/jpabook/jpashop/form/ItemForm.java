@@ -1,6 +1,5 @@
 package jpabook.jpashop.form;
 
-import jpabook.jpashop.domain.item.Book;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +8,8 @@ public class ItemForm {
     private Long id;
 
     private String name;
-    private int price;
     private int stockQuantity;
+    private int price;
     private String dtype;
 
     //book
@@ -24,4 +23,5 @@ public class ItemForm {
     //movie
     private String director;
     private String actor;
+
 }
